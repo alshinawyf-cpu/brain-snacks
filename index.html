@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سناكات العقل الذكية | Smart Brain Snacks 🍿</title>
+    <style>
+        :root {
+            --sky-blue: #70d6ff;
+            --baby-blue: #e0fbfc;
+            --deep-cloud-blue: #0077b6;
+            --sunny-yellow: #ffd166;
+            --bright-yellow: #ffb703;
+            --bg-color: #f0f8ff;
+            --card-bg: #ffffff;
+            --text-main: #1d3557;
+            --text-muted: #457b9d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0fbfc 0%, #caf0f8 50%, #90e0ef 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Welcome Modal with Blu the Cloud */
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 119, 182, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+
+        .welcome-content, .add-modal-content {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 28px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 119, 182, 0.25);
+            border-top: 6px solid var(--deep-cloud-blue);
+            border-right: 6px solid var(--sunny-yellow);
+            position: relative;
+        }
+
+        .blu-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--sky-blue), var(--deep-cloud-blue));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            margin: -60px auto 15px auto;
+            box-shadow: 0 8px 20px rgba(0, 119, 182, 0.3);
+            border: 4px solid white;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .welcome-content h2, .add-modal-content h3 {
+            color: var(--deep-cloud-blue);
+            margin-top: 0;
+        }
+
+        .welcome-content p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .start-btn, .submit-btn {
+            background: linear-gradient(135deg, var(--sky-blue), var(--deep-cloud-blue));
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 20px rgba(0, 119, 182, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .start-btn:hover, .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 119, 182, 0.4);
+        }
+
+        /* Top Navigation Bar */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 119, 182, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--deep-cloud-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .blu-helper-badge {
+            background: var(--sky-blue);
+            color: #03045e;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .lang-btn, .theme-btn {
+            background: linear-gradient(135deg, var(--sky-blue), var(--deep-cloud-blue));
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.25);
+        }
+
+        .lang-btn:hover, .theme-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 119, 182, 0.35);
+        }
+
+        /* Main Container */
+        .wrapper {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--deep-cloud-blue);
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px var(--sunny-yellow);
+        }
+
+        p.subtitle {
+            color: #03045e;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: rgba(255, 209, 102, 0.3);
+            display: inline-block;
+            padding: 8px 22px;
+            border-radius: 30px;
+            border: 2px dashed var(--bright-yellow);
+            box-shadow: 0 4px 15px rgba(255, 209, 102, 0.2);
+        }
+
+        /* Funny Blu Interactive Buttons Bar */
+        .blu-funny-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .blu-action-btn, .open-add-btn {
+            background: white;
+            border: 2px solid var(--sky-blue);
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--deep-cloud-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.95rem;
+        }
+
+        .open-add-btn {
+            background: linear-gradient(135deg, var(--sunny-yellow), var(--bright-yellow));
+            color: #1d3557;
+            border-color: var(--bright-yellow);
+        }
+
+        .blu-action-btn:hover, .open-add-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 119, 182, 0.25);
+        }
+
+        /* Blu Speech Bubble Box */
+        .blu-speech-box {
+            max-width: 600px;
+            margin: 0 auto 35px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--sunny-yellow);
+            padding: 15px 20px;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--text-main);
+            box-shadow: 0 5px 20px rgba(255, 209, 102, 0.2);
+            position: relative;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .blu-speech-box::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent var(--sunny-yellow) transparent;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Search Bar & Action */
+        .search-action-area {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 450px;
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: 2px solid var(--sky-blue);
+            font-size: 1.05rem;
+            outline: none;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 119, 182, 0.08);
+        }
+
+        .search-input:focus {
+            border-color: var(--deep-cloud-blue);
+            box-shadow: 0 0 20px rgba(0, 119, 182, 0.25);
+            background-color: white;
+        }
+
+        /* Grid Layout */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* Cards UI */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 119, 182, 0.12);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            border-top: 6px solid var(--deep-cloud-blue);
+            border-right: 6px solid var(--sunny-yellow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -35px;
+            left: -35px;
+            width: 100px;
+            height: 100px;
+            background: rgba(112, 214, 255, 0.2);
+            border-radius: 50%;
+            z-index: 0;
+            transition: transform 0.4s;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: -25px;
+            right: -25px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 209, 102, 0.2);
+            border-radius: 20px;
+            transform: rotate(45deg);
+            z-index: 0;
+            transition: transform 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(0, 119, 182, 0.2);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--deep-cloud-blue);
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .prompt-box {
+            background: #f8fbfe;
+            border: 1px dashed var(--sky-blue);
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 0.85rem;
+            margin: 15px 0;
+            max-height: 120px;
+            overflow-y: auto;
+            color: #1d3557;
+            text-align: left;
+            direction: ltr;
+            position: relative;
+            z-index: 1;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--deep-cloud-blue), #03045e);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(0, 119, 182, 0.3);
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #03045e, #023e8a);
+            box-shadow: 0 6px 20px rgba(0, 119, 182, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .copied {
+            background: linear-gradient(135deg, #2a9d8f, #218380) !important;
+            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3) !important;
+        }
+
+        /* Modal Styles for Adding Prompt */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 119, 182, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+            backdrop-filter: blur(8px);
+        }
+
+        .add-modal-content {
+            text-align: right;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--deep-cloud-blue);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px solid var(--sky-blue);
+            font-size: 0.95rem;
+            outline: none;
+            box-sizing: border-box;
+            background: #f8fbfe;
+        }
+
+        .form-control:focus {
+            border-color: var(--deep-cloud-blue);
+            background: white;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            height: 100px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cancel-btn {
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 50%;
+        }
+
+        .cancel-btn:hover {
+            background: #cbd5e1;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: linear-gradient(135deg, #03045e 0%, #023e8a 50%, #0077b6 100%);
+            --card-bg: #111827;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --sky-blue: #38bdf8;
+            --deep-cloud-blue: #0ea5e9;
+        }
+
+        body.dark-mode nav {
+            background: rgba(17, 24, 39, 0.9);
+        }
+
+        body.dark-mode .blu-action-btn {
+            background: #1f2937;
+            color: #38bdf8;
+            border-color: #374151;
+        }
+
+        body.dark-mode .blu-speech-box, body.dark-mode .add-modal-content {
+            background: #1f2937;
+            color: #f8fafc;
+            border-color: #ffb703;
+        }
+
+        body.dark-mode .search-input, body.dark-mode .form-control {
+            background-color: #1f2937;
+            color: white;
+            border-color: #374151;
+        }
+
+        body.dark-mode .prompt-box {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 25px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(0, 119, 182, 0.15);
+        }
+    </style>
+</head>
+<body id="body">
+
+    <!-- Welcome Modal with Blu the Cloud -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <div class="blu-avatar">☁️</div>
+            <h2 id="modalTitle">أهلاً بكِ مع "بلو" ☁️✨</h2>
+            <p id="modalDesc">أنا سحابتك الذكية المساعدة! جيت أساعدك تنسخي أقوى برومبتات السوشيال ميديا والذكاء الاصطناعي، وتقدري كمان تضيفي برومبتاتك الخاصة بكل سهولة. استكشفي السناكات وابدئي الإبداع!</p>
+            <button class="start-btn" onclick="closeModal()" id="modalBtn">يلا بينا يا بلو 🚀</button>
+        </div>
+    </div>
+
+    <!-- Add Custom Prompt Modal -->
+    <div class="modal-overlay" id="addModal">
+        <div class="add-modal-content">
+            <h3 id="addModalTitle">✨ أضف سناكك (برومبت) الجديد</h3>
+            <div class="form-group">
+                <label id="labelTitle" for="customTitle">اسم السناك أو البرومبت:</label>
+                <input type="text" id="customTitle" class="form-control" placeholder="مثلاً: برومبت تحليل البيانات الاحترافي">
+            </div>
+            <div class="form-group">
+                <label id="labelDesc" for="customDesc">وصف بسيط للسناك:</label>
+                <input type="text" id="customDesc" class="form-control" placeholder="مثلاً: بيساعدك تحلل أرقام شركتك بسرعة">
+            </div>
+            <div class="form-group">
+                <label id="labelPrompt" for="customPromptText">نص البرومبت (Prompt):</label>
+                <textarea id="customPromptText" class="form-control" placeholder="Act as a data expert..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeAddModal()" id="cancelBtn">إلغاء</button>
+                <button class="submit-btn" onclick="saveCustomPrompt()" id="saveBtn">حفظ وإضافة 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo-area" id="logoText">
+            🍿 سناكات العقل الذكية
+            <span class="blu-helper-badge">☁️ مع بلو</span>
+        </div>
+        <div class="nav-controls">
+            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">EN 🌐</button>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 الوضع الداكن</button>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <header>
+            <h1 id="mainTitle">🍿 سناكات العقل الذكية</h1>
+            <p class="subtitle" id="mainSubtitle">أشهر وأقوى برومبتات السوشيال ميديا والذكاء الاصطناعي.. جاهزة للنسخ الفوري!</p>
+        </header>
+
+        <!-- Funny Blu Interactive Buttons -->
+        <div class="blu-funny-bar" id="bluBar">
+            <button class="blu-action-btn" onclick="bluSpeak('tickle')">☁️ غدي بلو (ضحّكه)</button>
+            <button class="blu-action-btn" onclick="bluSpeak('rain')">🌧️ نزل مطر نكت</button>
+            <button class="blu-action-btn" onclick="bluSpeak('sleep')">💤 بلو عاوز ينام</button>
+            <button class="blu-action-btn" onclick="bluSpeak('energy')">⚡ اديني طاقة إيجابية</button>
+        </div>
+
+        <!-- Blu Speech Bubble -->
+        <div class="blu-speech-box" id="bluSpeechText">
+            💬 "أهلاً بيكي! دوسي على زر إضافة سناك لو عندك برومبت جامد عاوز تشاركه معانا!"
+        </div>
+
+        <!-- Search Bar & Add Button Area -->
+        <div class="search-action-area">
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن سناك أو برومبت معين..." onkeyup="filterSnacks()">
+            <button class="open-add-btn" onclick="openAddModal()" id="openAddBtn">➕ أضف سناكك الخاص</button>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="container" id="snacks-container"></div>
+    </div>
+
+    <footer id="footerText">
+        تم التصميم والتطوير بكل إبداع مع مساعدك السحابي "بلو" ✨
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        const bluQuotes = {
+            ar: {
+                tickle: [
+                    "ههههه يا عم بطل تكيّسني! قطعت نفَس السحابة!",
+                    "يا ساتر! رغتي كتيرة بس بحبك يا سيدي.. ها هتنقش برومبت ولا إيه؟",
+                    "احم.. أنا سحابة محترمة مش بتاعت تشتت! بس ضحكتني معليش ☁️😂"
+                ],
+                rain: [
+                    "نكتة سحابية: إيه أطول سحابة في العالم؟ سحابة... طوّلت في الشارع! 🌧️🥁 بااااح!",
+                    "مرة سحابة خافت.. نزلت مبلولة من الرعب! متطششش مني بالله عليك ☁️💧",
+                    "المطر بينزل عشان بيعيط لما يشوفك مش بتنسخ البرومبتات بسرعة! 🌩️"
+                ],
+                sleep: [
+                    "zzz.. أنا نايم بس بقرأ البرومبتات بعين واحدة.. سبني أحلم بـ ChatGPT 😴☁️",
+                    "مين اللي بينادي بلو؟ المخدة نادتني يا جدعان معلش تصبحوا على خير 🌌",
+                    "السحب بتنام بالليل.. بس عشانك هسهر شوية كمان يلا انجز! 🌙"
+                ],
+                energy: [
+                    "اصصححى! البرومبتات دي مش هتنسخ نفسها! ورينا الشطارة والإنتاجية ⚡🚀",
+                    "طاقة سحابية نفاذة وصلت! يلا بينا نعمل عظمة اليوم ونكسر الدنيا 💪🔥",
+                    "أنت ذكي وسريع، والـ AI مستني إبداعك الخرافي انطلق! ✨"
+                ]
+            },
+            en: {
+                tickle: [
+                    "Hahaha! Stop tickling me, you're making it rain tears! ☁️😂",
+                    "Hey! I'm a serious cloud... well, most of the time! 🌩️",
+                    "Okay okay, that tickled my vapor! Let's get back to work! ✨"
+                ],
+                rain: [
+                    "Cloud joke: Why did the cloud stay in bed? It was under the weather! 🌧️🥁",
+                    "What do clouds wear under their raincoats? Thunderwear! ⚡😂",
+                    "It's raining epic prompts out here! Grab an umbrella! ☂️"
+                ],
+                sleep: [
+                    "Zzz... I'm sleeping with one cloudy eye open. Don't wake me up unless it's viral! 😴",
+                    "Cloud mode: Low power sleep activated. Wake me up with a good prompt! 🌌",
+                    "So tired... dreaming of infinite bandwidth and fast Wi-Fi... 💤"
+                ],
+                energy: [
+                    "BOOM! Energy level over 9000! Let's crush this project today! ⚡🚀",
+                    "You've got this! Time to unleash your inner genius and code like a beast! 💪🔥",
+                    "Maximum velocity activated! Let's build something legendary! ✨"
+                ]
+            }
+        };
+
+        function bluSpeak(action) {
+            const list = bluQuotes[currentLang][action];
+            const randomMsg = list[Math.floor(Math.random() * list.length)];
+            const speechBox = document.getElementById('bluSpeechText');
+            
+            speechBox.style.animation = 'none';
+            speechBox.offsetHeight; 
+            speechBox.style.animation = 'fadeIn 0.4s ease';
+            speechBox.innerHTML = `💬 "${randomMsg}"`;
+        }
+
+        const defaultSnacks = {
+            ar: [
+                { title: "شوكولاتة الـ ChatGPT Persona 🎭", desc: "تخلي الذكاء الاصطناعي يتكلم ويشتغل كأنه خبير عالمي في مجالك.", prompt: "Act as an expert world-class consultant in my field. Do not give generic advice. Ask me 3 targeted questions one by one to fully understand my specific situation before giving a customized strategy." },
+                { title: "شيبسي الـ Viral Hook 🎯", desc: "كتابة بدايات خطرة وتشد المتابع من أول ثانية للريلز والتيك توك.", prompt: "أنت خبير نمو وصانع محتوى فيس بوك وتيك توك. اكتب لي 5 جمل افتتاحية (Hooks) قوية جداً وجريئة تبدأ بها فيديو قصير عشان تخلي الناس تكمل الفيديو للآخر." },
+                { title: "عصير إعادة صياغة النصوص (Humanize) ✍️", desc: "تخلي أي نص مكتوب بالآي آي يبان طبيعي وبشري 100%.", prompt: "أعد كتابة النص التالي بأسلوب بشري تماماً، طبيعي، سلس، وفيه لمسة عاطفية وبسيطة كأن شخص بيكلمه لصديقه، وتجنب تماماً التعبير الروبوتي التقليدي." },
+                { title: "ساندوتش تلخيص الكتب (10X) 📚", desc: "تلخيص أي كتاب أو مقال طويل في نقاط عملية مركزة.", prompt: "لخص لي هذا الكتاب أو المقال في أهم 5 أفكار رئيسية عملية قابلة للتنفيذ فوراً مع ذكر الخلاصة والهدف الأساسي بدون حشو." },
+                { title: "فشار تلخيص الفيديوهات الطويلة 🎥", desc: "استخراج أهم نقاط أي فيديو يوتيوب طويل في ثواني.", prompt: "أعطني ملخصاً شاملاً ومنظماً لأهم النقاط والأفكار التي تم ذكرها في الفيديو المطلوب، مقسمة في شكل نقاط رئيسية مع الوقت المستهدف لو أمكن." },
+                { title: "آيس كريم حل المشكلات (Root Cause) 🧩", desc: "تفكيك أي مشكلة معقدة ومعرفة أسبابها الجذرية وحلها.", prompt: "عندي المشكلة التالية: [اكتب مشكلتك هنا]. ساعدني في تحليلها باستخدام طريقة السبب الجذري (Root Cause Analysis) واقترح علي 3 حلول عملية ومنطقية." },
+                { title: "بسكويت كاتب الكوبي رايتنج (Copywriting) 💰", desc: "كتابة إعلانات تبيع وتجذب العملاء بأسلوب ماركتنج عالي.", prompt: "بصفتك خبير تسويق إلكتروني وكوبي رايتر محترف، اكتب نص إعلاني (Ad Copy) جذاب ومقنع لمنتجي مستخدماً استراتيجية AIDA (Attention, Interest, Desire, Action)." },
+                { title: "كاندي المبرمج المحترف 💻", desc: "تصحيح الأكواد البرمجية (Debugging) واكتشاف الأخطاء بسرعة.", prompt: "أنت مهندس برمجيات خبير. قم بمراجعة الكود الخاص بي واكتشف الأخطاء أو الثغرات الموجودة فيه، واكتب لي النسخة الصحيحة المنظمة مع شرح سبب التعديل." },
+                { title: "سموذي التخطيط اليومي (Time Boxing) ⏳", desc: "تنظيم اليوم بطريقة ذكية تمنع التشتت وتزود الإنتاجية.", prompt: "أنشئ لي جدولاً يومياً واقعياً ومنظماً باستخدام تقنية Time Boxing لتنفيذ مهامي اليومية مع تخصيص وقت كافٍ للراحة ومنع التشتت." }
+            ],
+            en: [
+                { title: "ChatGPT Persona Chocolate 🎭", desc: "Make AI talk and work as a world-class expert in your field.", prompt: "Act as an expert world-class consultant in my field. Do not give generic advice. Ask me 3 targeted questions one by one to fully understand my specific situation before giving a customized strategy." },
+                { title: "Viral Hook Chips 🎯", desc: "Write killer opening hooks that grab viewers from the first second.", prompt: "You are a growth expert and content creator. Write 5 powerful, bold hook sentences for a short video to maximize audience retention." },
+                { title: "Humanize Text Juice ✍️", desc: "Rewrite AI text to sound 100% natural, human, and conversational.", prompt: "Rewrite the following text in a completely human, natural, fluent, and warm conversational tone, avoiding any robotic phrasing." },
+                { title: "10X Book Summary Sandwich 📚", desc: "Summarize any long book or article into actionable core points.", prompt: "Summarize this book/article into the top 5 practical, actionable key ideas without fluff." },
+                { title: "Video Summary Popcorn 🎥", desc: "Extract essential timestamps and main takeaways from long videos.", prompt: "Provide a comprehensive, structured summary of the main points and ideas mentioned in the requested video." },
+                { title: "Root Cause Ice Cream 🧩", desc: "Deconstruct complex problems to find underlying root causes and solutions.", prompt: "I have the following problem: [Insert problem]. Help me analyze it using Root Cause Analysis and suggest 3 practical solutions." },
+                { title: "Copywriting Cookie 💰", desc: "Write high-converting advertising copy using marketing frameworks.", prompt: "As an expert marketer and copywriter, write a compelling ad copy for my product using the AIDA framework." },
+                { title: "Developer Candy 💻", desc: "Debug code, spot vulnerabilities, and clean up scripts quickly.", prompt: "You are an expert software engineer. Review my code, spot bugs or vulnerabilities, and provide the clean correct version with explanations." },
+                { title: "Time Boxing Smoothie ⏳", desc: "Organize your day smartly using time-blocking to boost productivity.", prompt: "Create a realistic and organized daily schedule using the Time Boxing technique to execute my daily tasks efficiently." }
+            ]
+        };
+
+        // Load custom snacks from localStorage or fallback to default
+        let customSnacks = JSON.parse(localStorage.getItem('myCustomSnacks')) || { ar: [], en: [] };
+
+        function getActiveSnacks() {
+            return {
+                ar: [...defaultSnacks.ar, ...customSnacks.ar],
+                en: [...defaultSnacks.en, ...customSnacks.en]
+            };
+        }
+
+        function closeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+            document.getElementById('customTitle').value = '';
+            document.getElementById('customDesc').value = '';
+            document.getElementById('customPromptText').value = '';
+        }
+
+        function saveCustomPrompt() {
+            const title = document.getElementById('customTitle').value.trim();
+            const desc = document.getElementById('customDesc').value.trim();
+            const prompt = document.getElementById('customPromptText').value.trim();
+
+            if (!title || !prompt) {
+                alert(currentLang === 'ar' ? 'من فضلك ادخل اسم السناك ونَص البرومبت على الأقل!' : 'Please enter at least the snack title and prompt text!');
+                return;
+            }
+
+            const newSnack = { title, desc: desc || (currentLang === 'ar' ? 'سناك مخصص تم إضافته بواسطة المستخدم' : 'Custom user-added snack'), prompt };
+            
+            // Add to current language category and save to storage
+            customSnacks[currentLang].push(newSnack);
+            localStorage.setItem('myCustomSnacks', JSON.stringify(customSnacks));
+
+            closeAddModal();
+            renderSnacks();
+            
+            // Blu celebration reaction
+            const speechBox = document.getElementById('bluSpeechText');
+            speechBox.innerHTML = currentLang === 'ar' ? `💬 "ياسلااام! تم إضافة سناكك الجديد بنجاح يا بطل! 🚀✨"` : `💬 "Awesome! Your custom snack has been added successfully! 🚀✨"`;
+        }
+
+        function renderSnacks(filterText = '') {
+            const container = document.getElementById('snacks-container');
+            container.innerHTML = '';
+            
+            const activeList = getActiveSnacks();
+            const list = activeList[currentLang];
+            const filtered = list.filter(item => 
+                item.title.toLowerCase().includes(filterText.toLowerCase()) || 
+                item.desc.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            filtered.forEach((snack, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-content">
+                        <h3>${snack.title}</h3>
+                        <p>${snack.desc}</p>
+                        <div class="prompt-box" id="prompt-${index}">${snack.prompt}</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyPrompt(${index}, this)">${currentLang === 'ar' ? 'نسخ البرومبت 📋' : 'Copy Prompt 📋'}</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function copyPrompt(index, btn) {
+            const textToCopy = document.getElementById(`prompt-${index}`).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = currentLang === 'ar' ? "تم النسخ بنجاح! ✨" : "Copied Successfully! ✨";
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function filterSnacks() {
+            const query = document.getElementById('searchInput').value;
+            renderSnacks(query);
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const body = document.getElementById('body');
+            
+            if(currentLang === 'en') {
+                body.setAttribute('dir', 'ltr');
+                document.getElementById('langBtn').innerText = "عربي 🌐";
+                document.getElementById('mainTitle').innerText = "🍿 Smart Brain Snacks";
+                document.getElementById('mainSubtitle').innerText = "Top viral social media & AI prompts.. ready for instant copy!";
+                document.getElementById('searchInput').placeholder = "Search for a specific snack or prompt...";
+                document.getElementById('openAddBtn').innerText = "➕ Add Your Snack";
+                document.getElementById('footerText').innerText = "Designed & developed with creativity alongside your cloud helper 'Blu' ✨";
+                document.getElementById('modalTitle').innerText = "Welcome with Blu! ☁️✨";
+                document.getElementById('modalDesc').innerText = "I'm your smart cloud helper! I'm here to help you copy the strongest social media & AI prompts, and you can also add your own custom prompts easily. Explore and enjoy!";
+                document.getElementById('modalBtn').innerText = "Let's Go, Blu! 🚀";
+                
+                // Add modal texts EN
+                document.getElementById('addModalTitle').innerText = "✨ Add Your Custom Snack";
+                document.getElementById('labelTitle').innerText = "Snack Title:";
+                document.getElementById('labelDesc').innerText = "Short Description:";
+                document.getElementById('labelPrompt').innerText = "Prompt Text:";
+                document.getElementById('cancelBtn').innerText = "Cancel";
+                document.getElementById('saveBtn').innerText = "Save & Add 🚀";
+
+                // Blu Bar EN
+                document.getElementById('bluBar').innerHTML = `
+                    <button class="blu-action-btn" onclick="bluSpeak('tickle')">☁️ Tickle Blu</button>
+                    <button class="blu-action-btn" onclick="bluSpeak('rain')">🌧️ Cloud Jokes</button>
+                    <button class="blu-action-btn" onclick="bluSpeak('sleep')">💤 Blu is Sleepy</button>
+                    <button class="blu-action-btn" onclick="bluSpeak('energy')">⚡ Boost Energy</button>
+                `;
+                document.getElementById('bluSpeechText').innerHTML = `💬 "Welcome! Click the add snack button if you have an awesome prompt to share!"`;
+            } else {
+                body.setAttribute('dir', 'rtl');
+                document.getElementById('langBtn').innerText = "EN 🌐";
+                document.getElementById('mainTitle').innerText = "🍿 سناكات العقل الذكية";
+                document.getElementById('mainSubtitle').innerText = "أشهر وأقوى برومبتات السوشيال ميديا والذكاء الاصطناعي.. جاهزة للنسخ الفوري!";
+                document.getElementById('searchInput').placeholder = "ابحث عن سناك أو برومبت معين...";
+                document.getElementById('openAddBtn').innerText = "➕ أضف سناكك الخاص";
+                document.getElementById('footerText').innerText = "تم التصميم والتطوير بكل إبداع مع مساعدك السحابي 'بلو' ✨";
+                document.getElementById('modalTitle').innerText = "أهلاً بكِ مع 'بلو' ☁️✨";
+                document.getElementById('modalDesc').innerText = "أنا سحابتك الذكية المساعدة! جيت أساعدك تنسخي أقوى برومبتات السوشيال ميديا والذكاء الاصطناعي، وتقدري كمان تضيفي برومبتاتك الخاصة بكل سهولة. استكشفي السناكات وابدئي الإبداع!";
+                document.getElementById('modalBtn').innerText = "يلا بينا يا بلو 🚀";
+                
+                // Add modal texts AR
+                document.getElementById('addModalTitle').innerText = "✨ أضف سناكك (برومبت) الجديد";
+                document.getElementById('labelTitle').innerText = "اسم السناك أو البرومبت:";
+                document.getElementById('labelDesc').innerText = "وصف بسيط للسناك:";
+                document.getElementById('labelPrompt').innerText = "نص البرومبت (Prompt):";
+                document.getElementById('cancelBtn').innerText = "إلغاء";
+                document.getElementById('saveBtn').innerText = "حفظ وإضافة 🚀";
+
+                // Blu Bar AR
+                document.getElementById('bluBar').innerHTML = `
+                    <button class="blu-action-btn" onclick="bluSpeak('tickle')">☁️ غدي بلو (ضحّكه)</button>
+                    <button class="blu-action-btn" onclick="bluSpeak('rain')">🌧️ نزل مطر نكت</button>
+                    <button class="blu-action-btn" onclick="bluSpeak('sleep')">💤 بلو عاوز ينام</button>
+                    <button class="blu-action-btn" onclick="bluSpeak('energy')">⚡ اديني طاقة إيجابية</button>
+                `;
+                document.getElementById('bluSpeechText').innerHTML = `💬 "أهلاً بيكي! دوسي على زر إضافة سناك لو عندك برومبت جامد عاوز تشاركه معانا!"`;
+            }
+            renderSnacks();
+        }
+
+        function toggleTheme() {
+            const body = document.getElementById('body');
+            body.classList.toggle('dark-mode');
+            const themeBtn = document.getElementById('themeBtn');
+            if(body.classList.contains('dark-mode')) {
+                themeBtn.innerText = currentLang === 'ar' ? "☀️ الوضع الفاتح" : "☀️ Light Mode";
+            } else {
+                themeBtn.innerText = currentLang === 'ar' ? "🌙 الوضع الداكن" : "🌙 Dark Mode";
+            }
+        }
+
+        renderSnacks();
+    </script>
+</body>
+</html>
