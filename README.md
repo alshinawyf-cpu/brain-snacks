@@ -1,0 +1,2 @@
+# brain-snacks
+🍿 Smart Brain Snacks | An interactive cloud web app to copy top viral social media &amp; AI prompts instantly, featuring your friendly cloud companion "Blu" ☁️
